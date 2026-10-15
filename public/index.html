@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Platform Merdeka Mengajar</title>
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0f6b5c">
+<link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/icon-192.png">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f3f6f4;--card:#fff;--tx:#12263a;--mut:#58697a;--pri:#0f6b5c;--pri2:#dff1ec;--acc:#e8590c;--bd:#d9e3df;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1816;--card:#16231f;--tx:#e6f0ec;--mut:#9bb1a8;--pri:#4fd1b5;--pri2:#1c3a33;--acc:#ff8a4c;--bd:#27403a;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0e1816;--card:#16231f;--tx:#e6f0ec;--mut:#9bb1a8;--pri:#4fd1b5;--pri2:#1c3a33;--acc:#ff8a4c;--bd:#27403a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+nav{position:fixed;z-index:5;background:var(--card);border-top:1px solid var(--bd);left:0;right:0;bottom:0;display:flex;overflow-x:auto;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+nav button{flex:0 0 auto;min-width:74px;background:none;border:0;color:var(--mut);font:inherit;font-size:11px;padding:6px 4px;border-radius:10px;cursor:pointer}
+nav button b{display:block;font-size:20px;font-weight:400}
+nav button.on{color:var(--pri);background:var(--pri2);font-weight:600}
+.brand{display:none}
+main{padding:16px 16px 96px;max-width:900px;margin:0 auto}
+h1{font:700 26px/1.2 Georgia,"Times New Roman",serif;margin:4px 0 4px}
+h2{font-size:17px;margin:0 0 6px}
+.sub{color:var(--mut);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.grid .card{margin:0}
+.tag{display:inline-block;font-size:12px;background:var(--pri2);color:var(--pri);border-radius:99px;padding:2px 10px;margin:0 6px 6px 0}
+.hero{background:var(--pri);color:#fff;border-radius:18px;padding:22px;margin-bottom:16px}
+.hero h1{color:#fff}.hero p{margin:0;opacity:.92}
+button.b,input,select,textarea{font:inherit;color:var(--tx)}
+.b{background:var(--pri);color:#fff!important;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;font-weight:600}
+.b.o{background:none;border:1px solid var(--bd);color:var(--tx)!important}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 11px;margin:4px 0 10px}
+label{font-size:14px;color:var(--mut)}
+.bar{height:8px;background:var(--pri2);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.play{aspect-ratio:16/9;border-radius:10px;background:linear-gradient(135deg,var(--pri),var(--acc));display:grid;place-items:center;color:#fff;font-size:32px;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 12px;margin:6px 0;cursor:pointer}
+.opt.ok{border-color:var(--pri);background:var(--pri2)}.opt.no{border-color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.cert{border:3px double var(--pri);text-align:center;padding:18px;border-radius:12px}
+@media(min-width:860px){
+ body{padding-left:230px}
+ nav{top:env(safe-area-inset-top,0px);bottom:0;right:auto;width:230px;flex-direction:column;border-top:0;border-right:1px solid var(--bd);padding:12px;overflow-y:auto}
+ nav button{text-align:left;font-size:15px;display:flex;gap:10px;align-items:center;padding:10px 12px}
+ nav button b{display:inline;font-size:18px}
+ .brand{display:block;font:700 17px/1.2 Georgia,serif;color:var(--pri);padding:6px 12px 14px}
+ main{padding:32px 32px 48px}
+}
+.guest nav{display:none}.guest main{padding-bottom:32px}@media(min-width:860px){body.guest{padding-left:0}}</style></head><body>
+<nav id="nav" aria-label="Menu utama"></nav>
+<main id="app"></main>
+<script>
+const M=[["home","🏠","Beranda"],["ajar","📚","Perangkat Ajar"],["latih","🎓","Pelatihan"],["asesmen","📝","Asesmen"],["karya","🗂️","Bukti Karya"],["video","🎬","Video"],["komun","👥","Komunitas"],["kinerja","📈","Kinerja"],["refleksi","🧭","Refleksi"]];
+const S={tab:"home",q:"",fase:"",jw:{},hasil:null,mode:"masuk",err:"",token:null,user:null};
+try{S.token=localStorage.getItem("pmm_t");S.user=localStorage.getItem("pmm_n")}catch(e){}
+const $=s=>document.querySelector(s),v=id=>($("#"+id)||{}).value||"";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function setAuth(t,n){S.token=t;S.user=n;try{if(t){localStorage.setItem("pmm_t",t);localStorage.setItem("pmm_n",n)}else{localStorage.removeItem("pmm_t");localStorage.removeItem("pmm_n")}}catch(e){}}
+async function api(p,o={}){const r=await fetch("/api"+p,{method:o.m||"GET",headers:{"Content-Type":"application/json",...(S.token?{Authorization:"Bearer "+S.token}:{})},body:o.b?JSON.stringify(o.b):undefined});
+ let d={};try{d=await r.json()}catch(e){}
+ if(r.status==401&&!p.startsWith("/auth")){setAuth(null,null);render();throw new Error(d.error||"Sesi berakhir")}
+ if(!r.ok)throw new Error(d.error||"Permintaan gagal");return d}
+async function act(fn){try{await fn();render()}catch(e){alert(e.message)}}
+function go(t){S.tab=t;S.hasil=null;render();window.scrollTo(0,0)}
+function keluar(){setAuth(null,null);S.mode="masuk";render()}
+function mode(m){S.mode=m;S.err="";render()}
+async function auth(){const reg=S.mode=="daftar";try{const d=await api(reg?"/auth/register":"/auth/login",{m:"POST",b:{nama:v("an"),sekolah:v("as"),email:v("ae"),password:v("ap")}});setAuth(d.token,d.nama||"Guru");S.tab="home";render()}catch(e){S.err=e.message;render()}}
+function login(){const reg=S.mode=="daftar";return `<div class="hero"><h1>Merdeka Mengajar</h1><p>Masuk untuk mengakses perangkat ajar, pelatihan, dan komunitas.</p></div>
+<div class="card" style="max-width:420px"><h2>${reg?"Buat akun guru":"Masuk"}</h2>
+${reg?`<label>Nama lengkap</label><input id="an" autocomplete="name"><label>Sekolah</label><input id="as">`:""}
+<label>Email</label><input id="ae" type="email" autocomplete="email"><label>Kata sandi${reg?" (minimal 8 karakter)":""}</label><input id="ap" type="password" autocomplete="${reg?"new-password":"current-password"}" onkeydown="if(event.key=='Enter')auth()">
+${S.err?`<p style="color:var(--acc);margin:0 0 10px" role="alert">${esc(S.err)}</p>`:""}
+<div class="row"><button class="b" onclick="auth()">${reg?"Daftar":"Masuk"}</button><button class="b o" onclick="mode('${reg?"masuk":"daftar"}')">${reg?"Sudah punya akun":"Buat akun baru"}</button></div></div>`}
+const V={
+async home(){return `<div class="hero"><h1>Halo, ${esc(S.user)}</h1><p>Perangkat ajar, pelatihan, dan komunitas untuk guru Indonesia.</p></div><div class="grid">${M.slice(1).map(m=>`<div class="card"><h2>${m[1]} ${m[2]}</h2><button class="b o" onclick="go('${m[0]}')">Buka</button></div>`).join("")}</div>`},
+async ajar(){const r=await api(`/perangkat?q=${encodeURIComponent(S.q)}&fase=${S.fase}`);
+return `<h1>Perangkat Ajar</h1><p class="sub">Modul ajar, bahan ajar, modul P5, buku teks, CP dan ATP.</p><div class="row"><input id="q" placeholder="Cari lalu tekan Enter" value="${esc(S.q)}" onchange="S.q=this.value;render()" style="flex:2;min-width:180px"><select onchange="S.fase=this.value;render()" style="flex:1;min-width:120px"><option value="">Semua fase</option>${"ABCDEF".split("").map(f=>`<option ${S.fase==f?"selected":""} value="${f}">Fase ${f}</option>`).join("")}</select></div>
+<div class="grid">${r.map(a=>`<div class="card"><span class="tag">${esc(a.jenis)}</span><span class="tag">Fase ${a.fase}</span><h2>${esc(a.judul)}</h2><div class="sub" style="margin:0">${esc(a.mapel)}</div></div>`).join("")||"<p class=sub>Tidak ada hasil. Ubah kata kunci atau fase.</p>"}</div>`},
+async latih(){const L=await api("/pelatihan");return `<h1>Pelatihan Mandiri</h1><p class="sub">Selesaikan semua materi untuk mendapat sertifikat.</p>${L.map(l=>`<div class="card"><h2>${esc(l.judul)}</h2><p class="sub" style="margin:0 0 8px">${esc(l.deskripsi)}</p>
+${l.materi.map((m,j)=>`<label style="display:block;color:var(--tx)"><input type="checkbox" style="width:auto;margin:0 8px 0 0" ${l.selesai.includes(j)?"checked":""} onchange="act(()=>api('/pelatihan/${l.id}/materi/${j}',{m:'PUT',b:{selesai:this.checked}}))">${esc(m)}</label>`).join("")}
+<div class="bar" style="margin:10px 0"><i style="width:${l.persen}%"></i></div><div class="row"><span>${l.persen}% selesai</span>${l.persen==100?`<button class="b" onclick="cert(${l.id},this)" data-j="${esc(l.judul)}">Lihat sertifikat</button>`:""}</div><div id="c${l.id}"></div></div>`).join("")}`},
+async asesmen(){const Q=await api("/asesmen"),h=S.hasil;return `<h1>Asesmen Murid</h1><p class="sub">Paket soal diagnostik dan formatif.</p>${Q.map((s,i)=>`<div class="card"><h2>${i+1}. ${esc(s.teks)}</h2>${s.opsi.map((t,j)=>`<button class="opt ${h?(h.kunci[s.id]==j?"ok":S.jw[s.id]==j?"no":""):(S.jw[s.id]==j?"ok":"")}" ${h?"disabled":""} onclick="S.jw[${s.id}]=${j};render()">${esc(t)}</button>`).join("")}</div>`).join("")}
+<div class="row">${h?`<b>Skor: ${h.skor}/${h.total}</b><button class="b o" onclick="S.hasil=null;S.jw={};render()">Ulangi</button>`:`<button class="b" onclick="act(async()=>{S.hasil=await api('/asesmen/kirim',{m:'POST',b:{jawaban:S.jw}})})">Kirim jawaban</button>`}</div>`},
+async karya(){const K=await api("/karya");return `<h1>Bukti Karya</h1><p class="sub">Dokumentasikan karya dan praktik baik Anda.</p><div class="card"><label>Judul karya</label><input id="kj"><label>Jenis</label><select id="kt"><option>Artikel</option><option>Modul</option><option>Praktik baik</option></select><label>Ringkasan</label><textarea id="kr" rows="3"></textarea><button class="b" onclick="act(()=>api('/karya',{m:'POST',b:{judul:v('kj'),jenis:v('kt'),ringkasan:v('kr')}}))">Simpan karya</button></div>
+${K.map(k=>`<div class="card"><span class="tag">${esc(k.jenis)}</span><h2>${esc(k.judul)}</h2><p class="sub" style="margin:0 0 8px">${esc(k.ringkasan)}</p><button class="b o" onclick="act(()=>api('/karya/${k.id}',{m:'DELETE'}))">Hapus</button></div>`).join("")||"<p class=sub>Belum ada karya. Isi formulir di atas.</p>"}`},
+async video(){const D=await api("/video");return `<h1>Video Inspirasi</h1><p class="sub">Ide praktik mengajar dari guru lain.</p><div class="grid">${D.map(x=>`<div class="card"><div class="play">▶</div><h2>${esc(x.judul)}</h2><div class="sub" style="margin:0">${esc(x.penulis)} · ${esc(x.durasi)}</div></div>`).join("")}</div>`},
+async komun(){const P=await api("/komunitas");return `<h1>Komunitas Belajar</h1><p class="sub">Berdiskusi dengan sesama guru.</p><div class="card"><label>Pertanyaan atau cerita</label><textarea id="pt" rows="2"></textarea><button class="b" onclick="act(()=>api('/komunitas',{m:'POST',b:{teks:v('pt')}}))">Kirim</button></div>
+${P.map(p=>`<div class="card"><h2>${esc(p.nama)}</h2><p style="margin:0 0 8px">${esc(p.teks)}</p><button class="b ${p.saya_suka?"":"o"}" onclick="act(()=>api('/komunitas/${p.id}/suka',{m:'POST'}))">👍 Bermanfaat (${p.suka})</button></div>`).join("")||"<p class=sub>Belum ada diskusi. Mulai yang pertama.</p>"}`},
+async kinerja(){const K=await api("/kinerja");return `<h1>Pengelolaan Kinerja</h1><p class="sub">Susun rencana dan evaluasi kinerja. Unduh data untuk e-Kinerja BKN.</p><div class="card"><label>Rencana hasil kerja</label><input id="sk"><label>Target</label><input id="st" placeholder="contoh: 24 jam per minggu"><button class="b" onclick="act(()=>api('/kinerja',{m:'POST',b:{rencana:v('sk'),target:v('st')}}))">Tambah rencana</button></div>
+${K.map(s=>`<div class="card"><h2>${esc(s.rencana)}</h2><div class="sub" style="margin:0 0 8px">Target: ${esc(s.target)}</div><div class="row"><select onchange="act(()=>api('/kinerja/${s.id}',{m:'PATCH',b:{status:this.value}}))" style="width:auto">${["Direncanakan","Berjalan","Tercapai"].map(x=>`<option ${s.status==x?"selected":""}>${x}</option>`).join("")}</select><button class="b o" onclick="act(()=>api('/kinerja/${s.id}',{m:'DELETE'}))">Hapus</button></div></div>`).join("")}
+${K.length?`<button class="b" onclick='exp(${JSON.stringify(K).replace(/'/g,"&#39;")})'>Unduh data (JSON)</button>`:""}`},
+async refleksi(){const d=await api("/refleksi");return `<h1>Refleksi dan Rekomendasi</h1><p class="sub">Nilai kompetensi Anda (1 rendah, 5 tinggi).</p><div class="card">${d.nilai.map(n=>`<label>${esc(n.kompetensi)}: <b>${n.nilai}</b></label><input type="range" min="1" max="5" value="${n.nilai}" onchange="act(()=>api('/refleksi',{m:'PUT',b:{['${n.kompetensi}']:+this.value}}))">`).join("")}</div>
+<div class="card"><h2>Prioritas pengembangan</h2>${d.rekomendasi.map(r=>`<p style="margin:4px 0"><b>${esc(r.kompetensi)}</b>: ${esc(r.saran)}</p>`).join("")}</div>`}};
+async function render(){document.body.classList.toggle("guest",!S.token);
+ if(!S.token){$("#app").innerHTML=login();return}
+ $("#nav").innerHTML='<div class="brand">Merdeka<br>Mengajar</div>'+M.map(m=>`<button class="${S.tab==m[0]?"on":""}" onclick="go('${m[0]}')"><b>${m[1]}</b>${m[2]}</button>`).join("")+'<button onclick="keluar()"><b>🚪</b>Keluar</button>';
+ $("#app").innerHTML='<p class="sub">Memuat…</p>';
+ try{$("#app").innerHTML=await V[S.tab]()}catch(e){if(S.token)$("#app").innerHTML=`<div class="card">${esc(e.message)}<br><br><button class="b" onclick="render()">Coba lagi</button></div>`}}
+function cert(id,b){$("#c"+id).innerHTML=`<div class="cert" style="margin-top:10px"><b>Sertifikat Penyelesaian</b><p>${esc(S.user)} telah menyelesaikan pelatihan "${esc(b.dataset.j)}" pada ${new Date().toLocaleDateString("id-ID")}.</p></div>`}
+function exp(d){const a=document.createElement("a");a.href="data:application/json,"+encodeURIComponent(JSON.stringify(d,null,1));a.download="kinerja.json";a.click()}
+if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+render();
+</script></body></html>
