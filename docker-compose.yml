@@ -1,0 +1,9 @@
+services:
+  pmm:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports: ["3000:3000"]
+    volumes: ["pmm-data:/data"]
+volumes:
+  pmm-data:
